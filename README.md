@@ -1,73 +1,127 @@
-# sanskrit_nmt
+# Sanskrit → English Neural Machine Translation
 
-# Sanskrit → English Neural Machine Translation (NMT)
-
-## Overview
-
-This project implements a **Neural Machine Translation (NMT)** system for translating **Sanskrit to English** using a **Sequence-to-Sequence (Seq2Seq)** architecture with **Bahdanau Attention**.
-
-The model is implemented in **PyTorch** and includes data preprocessing, vocabulary creation, training, evaluation, beam search inference, and submission file generation.
+A PyTorch implementation of a **Sequence-to-Sequence Neural Machine Translation (NMT)** system for translating **Sanskrit to English** using a **Bidirectional LSTM Encoder**, **Bahdanau Attention**, and an **LSTM Decoder**.
 
 ---
 
-## Features
+## Project Overview
 
-- Sanskrit text preprocessing
-- English text preprocessing
-- Custom tokenizer
-- Vocabulary generation
+This project implements an end-to-end Sanskrit → English Neural Machine Translation system that includes:
+
+- Data preprocessing
+- Vocabulary construction
 - Bidirectional LSTM Encoder
 - Bahdanau Attention
 - LSTM Decoder
-- Greedy Decoding
-- Beam Search Decoding
-- Training and Validation
-- BLEU Score Evaluation
-- BERTScore Evaluation
-- Token Accuracy
-- Model Checkpointing
-- Submission CSV Generation
+- Seq2Seq architecture
+- Model training
+- Model evaluation
+- Greedy and Beam Search inference
+- Submission file generation
 
 ---
 
-## Project Structure
+## Repository Structure
 
 ```
-sanskrit_nmt/
+Sanskrit_NMT/
 │
-├── data/
-│   ├── raw/
-│   └── processed/
+├── Sanskrit_English_NMT.ipynb        # Complete execution notebook
 │
-├── models/
-│   ├── encoder.py
-│   ├── decoder.py
-│   ├── attention.py
-│   ├── seq2seq.py
-│   └── transformer.py
+├── sanskrit_nmt/
+│   ├── models/
+│   │   ├── encoder.py
+│   │   ├── decoder.py
+│   │   ├── attention.py
+│   │   └── seq2seq.py
+│   │
+│   ├── data_loader/
+│   │   ├── dataset.py
+│   │   └── collate.py
+│   │
+│   ├── utils/
+│   │   ├── config.py
+│   │   ├── preprocessing.py
+│   │   ├── tokenizer.py
+│   │   ├── vocabulary.py
+│   │   └── metrics.py
+│   │
+│   ├── train.py
+│   ├── evaluate.py
+│   ├── inference.py
+│   │
+│   ├── data/
+│   ├── checkpoints/
+│   ├── outputs/
+│   └── logs/
 │
-├── data_loader/
-│   ├── dataset.py
-│   └── collate.py
-│
-├── utils/
-│   ├── config.py
-│   ├── preprocessing.py
-│   ├── tokenizer.py
-│   ├── vocabulary.py
-│   └── metrics.py
-│
-├── checkpoints/
-│
-├── outputs/
-│
-├── logs/
-│
-├── train.py
-├── evaluate.py
-├── inference.py
-├── README.md
-└── requirements.txt
+├── submission.csv
+├── Report.pdf
+└── README.md
+```
+
+---
+
+## Code Organization
+
+The project is organized into two parts.
+
+### 1. Python Source Code (`sanskrit_nmt/`)
+
+The `sanskrit_nmt` directory contains the complete implementation of the Neural Machine Translation system.
+
+It includes:
+
+- Dataset loading
+- Data preprocessing
+- Tokenization
+- Vocabulary generation
+- Encoder
+- Attention mechanism
+- Decoder
+- Seq2Seq model
+- Training
+- Evaluation
+- Inference
+
+Each module is implemented separately to improve readability and maintainability.
+
+---
+
+### 2. Execution Notebook (`Sanskrit_English_NMT.ipynb`)
+
+The notebook demonstrates the complete execution of the project.
+
+It includes:
+
+- Environment setup
+- Loading datasets
+- Model training
+- Model evaluation
+- Inference
+- Translation examples
+- Generation of `submission.csv`
+
+The notebook is intended to reproduce the complete workflow of the project.
+
+---
+
+## Model Architecture
+
+```
+Sanskrit Sentence
+        │
+Embedding Layer
+        │
+Bidirectional LSTM Encoder
+        │
+Bahdanau Attention
+        │
+LSTM Decoder
+        │
+Linear Output Layer
+        │
+English Translation
 ```
 
 ---
@@ -79,11 +133,6 @@ Training Dataset
 - train_sa_10000.csv
 - train_en_10000.csv
 
-Validation Dataset
-
-- dev_sa_1000.csv
-- dev_en_1000.csv
-
 Test Dataset
 
 - test_sa_1000.csv
@@ -91,94 +140,72 @@ Test Dataset
 
 ---
 
-## Model Architecture
-
-```
-Sanskrit Sentence
-        │
-Embedding Layer
-        │
-BiLSTM Encoder
-        │
-Bahdanau Attention
-        │
-LSTM Decoder
-        │
-Linear Layer
-        │
-English Translation
-```
-
----
-
 ## Hyperparameters
 
 | Parameter | Value |
-|-----------|------|
-| Embedding Size | 300 |
-| Hidden Size | 512 |
+|-----------|------:|
+| Embedding Dimension | 300 |
+| Hidden Dimension | 512 |
 | Batch Size | 64 |
 | Learning Rate | 0.001 |
 | Optimizer | Adam |
-| Teacher Forcing | 0.7 |
+| Teacher Forcing Ratio | 0.7 |
 | Beam Width | 5 |
-| Epochs | 20 |
+| Number of Epochs | 20 |
 
 ---
 
-## Installation
+## Evaluation Metrics
 
-Install the required packages.
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## Training
-
-```bash
-python train.py
-```
-
-The best model is automatically saved in:
-
-```
-checkpoints/best_model.pt
-```
-
----
-
-## Evaluation
-
-```bash
-python evaluate.py
-```
-
-Evaluation reports:
+The model is evaluated using:
 
 - BLEU Score
-- BERTScore
+- BERTScore (F1)
 - Token Accuracy
 - Inference Time
-- Number of Parameters
+- Number of Trainable Parameters
 
 ---
 
-## Inference
+## Features
 
-Generate translations and submission file.
+- Bidirectional LSTM Encoder
+- Bahdanau Attention
+- LSTM Decoder
+- Greedy Decoding
+- Beam Search Decoding
+- Model Checkpointing
+- BLEU Evaluation
+- BERTScore Evaluation
+- Submission File Generation
 
-```bash
-python inference.py
+---
+
+## Running the Project
+
+The complete project execution is available in:
+
+```
+Sanskrit_English_NMT.ipynb
 ```
 
-Output:
+The notebook demonstrates:
 
-```
-submission.csv
-```
+1. Training
+2. Evaluation
+3. Inference
+4. Submission generation
+
+---
+
+## Output
+
+The project generates:
+
+- Trained model checkpoints
+- Evaluation metrics
+- Translation examples
+- `submission.csv`
 
 ---
 
